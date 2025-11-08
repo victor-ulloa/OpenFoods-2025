@@ -25,19 +25,15 @@ struct FoodListView: View {
                     ScrollView {
                         LazyVStack(spacing: 16) {
                             ForEach(viewModel.foods, id: \.id) { food in
-                                Button {
-                                    selectedFood = food
-                                } label: {
-                                    FoodRowView(item: food)
+                                FoodRowView(item: food) {
+                                    Task { await viewModel.toggleLike(for: food) }
                                 }
-                                .buttonStyle(.plain)
                                 .onAppear {
                                     if food == viewModel.foods.last {
-                                        Task {
-                                            await viewModel.fetchFoodsIfNeeded()
-                                        }
+                                        Task { await viewModel.fetchFoodsIfNeeded() }
                                     }
                                 }
+                                .onTapGesture { selectedFood = food }
                             }
 
                             if viewModel.isLoading {
@@ -61,7 +57,7 @@ struct FoodListView: View {
                 }
             }
             .sheet(item: $selectedFood) { food in
-                FoodDetailView(food: food)
+                FoodDetailView(viewModel: viewModel, food: food)
             }
         }
     }

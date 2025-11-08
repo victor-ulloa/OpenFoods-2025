@@ -8,7 +8,7 @@
 struct FoodItem: Decodable, Sendable, Equatable, Identifiable {
     let id: Int
     let name: String
-    let isLiked: Bool
+    var isLiked: Bool
     let photoURL: String
     let description: String
     let countryOfOrigin: String

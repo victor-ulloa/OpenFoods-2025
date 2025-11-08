@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct FoodDetailView: View {
-    let food: FoodItem
+    @ObservedObject var viewModel: FoodListViewModel
+    @State var food: FoodItem
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 AsyncImage(url: URL(string: food.photoURL)) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
+                    image.resizable().scaledToFill()
                 } placeholder: {
                     ProgressView()
                 }
@@ -25,9 +24,26 @@ struct FoodDetailView: View {
                 .shadow(radius: 4)
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(food.name)
-                        .font(.title)
-                        .bold()
+                    HStack {
+                        Text(food.name)
+                            .font(.title)
+                            .bold()
+
+                        Spacer()
+
+                        Button {
+                            Task {
+                                await viewModel.toggleLike(for: food)
+                                // Update local state to reflect change immediately
+                                food.isLiked.toggle()
+                            }
+                        } label: {
+                            Image(systemName: food.isLiked ? "heart.fill" : "heart")
+                                .foregroundColor(food.isLiked ? .red : .gray)
+                                .imageScale(.large)
+                        }
+                        .buttonStyle(.plain)
+                    }
 
                     Text("\(food.countryOfOrigin.countryFlag) \(food.countryOfOrigin)")
                         .font(.headline)
