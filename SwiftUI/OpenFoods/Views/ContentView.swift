@@ -10,8 +10,6 @@ import Combine
 
 struct ContentView: View {
     
-    var viewModel: MainViewModel = .init()
-    
     var body: some View {
         VStack {
             FoodListView()

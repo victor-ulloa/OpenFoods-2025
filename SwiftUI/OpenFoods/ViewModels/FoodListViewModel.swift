@@ -1,5 +1,5 @@
 //
-//  ViewModel.swift
+//  FoodListViewModel.swift
 //  OpenFoods
 //
 //  Created by Victor Ulloa on 2025-11-07.
@@ -8,7 +8,7 @@
 import Combine
 
 @MainActor
-final class MainViewModel: ObservableObject {
+final class FoodListViewModel: ObservableObject {
     @Published private(set) var foods: [FoodItem] = []
     @Published private(set) var isLoading = false
     @Published private(set) var canLoadMore = true

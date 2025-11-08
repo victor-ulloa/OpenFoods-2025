@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct FoodListView: View {
-    @StateObject private var viewModel = MainViewModel()
+    @StateObject private var viewModel = FoodListViewModel()
+    @State private var selectedFood: FoodItem?
 
     var body: some View {
         NavigationStack {
@@ -23,13 +24,20 @@ struct FoodListView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 16) {
-                            ForEach(viewModel.foods, id: \.id) { item in
-                                FoodRowView(item: item)
-                                    .onAppear {
-                                        if item == viewModel.foods.last {
-                                            Task { await viewModel.fetchFoodsIfNeeded() }
+                            ForEach(viewModel.foods, id: \.id) { food in
+                                Button {
+                                    selectedFood = food
+                                } label: {
+                                    FoodRowView(item: food)
+                                }
+                                .buttonStyle(.plain)
+                                .onAppear {
+                                    if food == viewModel.foods.last {
+                                        Task {
+                                            await viewModel.fetchFoodsIfNeeded()
                                         }
                                     }
+                                }
                             }
 
                             if viewModel.isLoading {
@@ -51,6 +59,9 @@ struct FoodListView: View {
                 if viewModel.foods.isEmpty {
                     await viewModel.fetchFoods()
                 }
+            }
+            .sheet(item: $selectedFood) { food in
+                FoodDetailView(food: food)
             }
         }
     }
