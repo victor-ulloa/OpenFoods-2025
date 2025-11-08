@@ -25,7 +25,7 @@ struct FoodRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(item.name)
                     .font(.headline)
-                Text(item.countryOfOrigin)
+                Text(item.countryOfOrigin.countryFlag)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Text(item.description)
