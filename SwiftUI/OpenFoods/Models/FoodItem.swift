@@ -1,0 +1,16 @@
+//
+//  FoodItem.swift
+//  OpenFoods
+//
+//  Created by Victor Ulloa on 2025-11-07.
+//
+
+struct FoodItem: Decodable, Sendable {
+    let id: Int
+    let name: String
+    let isLiked: Bool
+    let photoURL: String
+    let description: String
+    let countryOfOrigin: String
+    let lastUpdatedDate: String
+}
