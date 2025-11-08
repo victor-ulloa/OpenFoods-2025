@@ -5,7 +5,7 @@
 //  Created by Victor Ulloa on 2025-11-07.
 //
 
-struct FoodItem: Decodable, Sendable {
+struct FoodItem: Decodable, Sendable, Equatable {
     let id: Int
     let name: String
     let isLiked: Bool

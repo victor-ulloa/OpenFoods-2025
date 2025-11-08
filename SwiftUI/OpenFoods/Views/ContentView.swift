@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    
+    var viewModel: MainViewModel = .init()
+    
     var body: some View {
         VStack {
-            Text("Good luck with your tech test!")
+            FoodListView()
         }
-        .padding()
     }
 }
 
