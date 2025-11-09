@@ -14,7 +14,7 @@ final class FoodListViewModel: ObservableObject {
     @Published private(set) var canLoadMore = true
 
     private let network: NetworkServicing = NetworkManager(config: NetworkConfig())
-    private var currentPage = 0 // start at 0
+    private var currentPage = 0
 
     func fetchFoods() async {
         guard !isLoading else { return }

@@ -85,7 +85,7 @@ final actor NetworkManager: NetworkServicing {
         var request = URLRequest(url: url, timeoutInterval: config.timeout)
         request.httpMethod = endpoint.method.rawValue
         
-        var headers = config.defaultHeaders
+        var headers = config.headers
         if let extra = endpoint.headers { headers.merge(extra) { _, new in new } }
         for (key, value) in headers { request.setValue(value, forHTTPHeaderField: key) }
         

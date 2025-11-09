@@ -10,6 +10,7 @@ import SwiftUI
 struct FoodListView: View {
     @StateObject private var viewModel = FoodListViewModel()
     @State private var selectedFood: FoodItem?
+    @State private var tappedFoodID: Int?
 
     var body: some View {
         NavigationStack {
@@ -28,12 +29,25 @@ struct FoodListView: View {
                                 FoodRowView(item: food) {
                                     Task { await viewModel.toggleLike(for: food) }
                                 }
+                                .scaleEffect(tappedFoodID == food.id ? 0.95 : 1.0)
+                                .animation(.spring(response: 0.3, dampingFraction: 0.6), value: tappedFoodID)
                                 .onAppear {
                                     if food == viewModel.foods.last {
                                         Task { await viewModel.fetchFoodsIfNeeded() }
                                     }
                                 }
-                                .onTapGesture { selectedFood = food }
+                                .onTapGesture {
+                                    tappedFoodID = food.id
+                                    withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
+                                        tappedFoodID = food.id
+                                    }
+
+                                    // Small delay so animation is visible before sheet appears
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                                        selectedFood = food
+                                        tappedFoodID = nil
+                                    }
+                                }
                             }
 
                             if viewModel.isLoading {

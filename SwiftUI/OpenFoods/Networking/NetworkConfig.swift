@@ -8,23 +8,30 @@
 import Foundation
 
 struct NetworkConfig: Sendable {
-    static let baseURL: URL = URL(string: "https://opentable-dex-ios-test-d645a49e3287.herokuapp.com")!
-    static let userId: String = "vulloa"
+    static let baseURLString = "https://opentable-dex-ios-test-d645a49e3287.herokuapp.com"
+    static let userIdValue = "vulloa"
 
-    var baseURL: URL
+    static var baseURL: URL {
+        guard let url = URL(string: baseURLString) else {
+            preconditionFailure("Invalid base URL string: \(baseURLString)")
+        }
+        return url
+    }
+
     var userId: String
-    var defaultHeaders: [String: String]
+    var baseURL: URL
+    var headers: [String: String]
     var timeout: TimeInterval
 
     init(
-        userId: String = NetworkConfig.userId,
+        userId: String = NetworkConfig.userIdValue,
         baseURL: URL = NetworkConfig.baseURL,
-        defaultHeaders: [String: String] = ["Accept": "application/json"],
+        headers: [String: String] = ["Accept": "application/json"],
         timeout: TimeInterval = 30
     ) {
         self.userId = userId
         self.baseURL = baseURL
-        self.defaultHeaders = defaultHeaders
+        self.headers = headers
         self.timeout = timeout
     }
 }

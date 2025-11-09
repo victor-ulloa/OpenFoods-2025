@@ -5,7 +5,6 @@
 //  Created by Victor Ulloa on 2025-11-08.
 //
 
-
 extension String {
     var flagEmoji: String {
         self
@@ -17,10 +16,6 @@ extension String {
     }
     
     var countryFlag: String {
-        if count == 2 {
-            return self.flagEmoji
-        } else {
-            return self
-        }
+        count == 2 ? flagEmoji : self
     }
 }
