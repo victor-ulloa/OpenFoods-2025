@@ -11,10 +11,14 @@ import Combine
 final class FoodListViewModel: ObservableObject {
     @Published private(set) var foods: [FoodItem] = []
     @Published private(set) var isLoading = false
-    @Published private(set) var canLoadMore = true
+    @Published var canLoadMore = true
 
-    private let network: NetworkServicing = NetworkManager(config: NetworkConfig())
+    private let network: NetworkServicing
     private var currentPage = 0
+
+    init(network: NetworkServicing = NetworkManager(config: NetworkConfig())) {
+        self.network = network
+    }
 
     func fetchFoods() async {
         guard !isLoading else { return }
